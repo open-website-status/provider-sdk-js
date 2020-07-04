@@ -6,7 +6,7 @@ export interface SDKOptions {
 
 export type Job = {
   id: string,
-  protocol: 'http' | 'https',
+  protocol: 'http:' | 'https:',
   host: string,
   path: string,
 };
