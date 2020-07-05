@@ -4,13 +4,15 @@ export interface SDKOptions {
   path?: string;
 }
 
-export type Job = {
-  id: string,
+export interface Job {
+  jobId: string,
+  queryId: string,
   protocol: 'http:' | 'https:',
   hostname: string,
   pathname: string,
   port: number | undefined,
-};
+  search: string,
+}
 
 export interface JobResultSuccess {
   state: 'success';
