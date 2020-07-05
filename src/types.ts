@@ -25,7 +25,7 @@ export interface JobResultSuccess {
 
 export interface JobResultTimeout {
   state: 'timeout';
-  executionTime: 'number';
+  executionTime: number;
 }
 
 export interface JobResultError {
