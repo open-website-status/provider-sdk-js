@@ -15,7 +15,7 @@ export default class ProviderSDK extends Emitter<{
   public constructor(options: SDKOptions) {
     super();
 
-    this.socket = io(options.server ?? 'http://localhost:3000', {
+    this.socket = io(options.server, {
       query: {
         token: options.token,
       },

@@ -1,6 +1,6 @@
 export interface SDKOptions {
   token: string;
-  server?: string;
+  server: string;
   path?: string;
 }
 
