@@ -1,15 +1,20 @@
 import io from 'socket.io-client';
-import { Emitter } from './emitter';
+import { EventEmitter } from 'typed-event-emitter';
 import { Job, JobResult, SDKOptions } from './types';
 
-export default class ProviderSDK extends Emitter<{
-  connect: undefined,
-  'dispatch-job': Job,
-  'connect-error': Error,
-  'connect-timeout': undefined,
-  'error': string,
-  'disconnect': undefined,
-}> {
+export default class ProviderSDK extends EventEmitter {
+  public onConnect = this.registerEvent<() => unknown>();
+
+  public onDispatchJob = this.registerEvent<(job: Job) => unknown>();
+
+  public onConnectError = this.registerEvent<(error: Error) => unknown>();
+
+  public onConnectTimeout = this.registerEvent<() => unknown>();
+
+  public onError = this.registerEvent<(error: string) => unknown>();
+
+  public onDisconnect = this.registerEvent<() => unknown>();
+
   public socket: SocketIOClient.Socket;
 
   public constructor(options: SDKOptions) {
@@ -23,27 +28,27 @@ export default class ProviderSDK extends Emitter<{
     });
 
     this.socket.on('dispatch-job', (job: Job) => {
-      this.emit('dispatch-job', job);
+      this.emit(this.onDispatchJob, job);
     });
 
     this.socket.on('connect', () => {
-      this.emit('connect', undefined);
+      this.emit(this.onConnect);
     });
 
     this.socket.on('connect_error', (error: Error) => {
-      this.emit('connect-error', error);
+      this.emit(this.onConnectError, error);
     });
 
     this.socket.on('connect_timeout', () => {
-      this.emit('connect-timeout', undefined);
+      this.emit(this.onConnectTimeout);
     });
 
     this.socket.on('error', (errorMessage: string) => {
-      this.emit('error', errorMessage);
+      this.emit(this.onError, errorMessage);
     });
 
     this.socket.on('disconnect', () => {
-      this.emit('disconnect', undefined);
+      this.emit(this.onDisconnect);
     });
   }
 
