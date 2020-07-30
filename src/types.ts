@@ -10,7 +10,7 @@ export interface Job {
   protocol: 'http:' | 'https:',
   hostname: string,
   pathname: string,
-  port: number | undefined,
+  port: number | null,
   search: string,
 }
 
